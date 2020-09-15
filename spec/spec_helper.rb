@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "dashx/pigeon"
+require "dashx"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
