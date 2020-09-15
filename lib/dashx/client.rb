@@ -3,19 +3,20 @@ require 'httparty'
 module DashX
   class Client
     include HTTParty
+    base_uri 'https://api.dashx.com/v1'
 
     def initialize(config)
       @config = config
 
-      self.class.base_uri(config.base_uri || 'https://api.dashx.com/v1')
+      self.class.base_uri(config[:base_uri])
       self.class.headers({
-        'X-Public-Key' => config.public_key,
-        'X-Private-Key' => config.private_key
+        'X-Public-Key' => config[:public_key],
+        'X-Private-Key' => config[:private_key]
       })
     end
 
     def make_http_request(uri, body)
-      send_request(:post, "/#{uri}", { body: body })
+      self.class.send(:post, "/#{uri}", { body: body })
     end
 
     def identify(uid, options = {})
@@ -25,6 +26,7 @@ module DashX
         params = { uid: uid }.merge(options)
       else
         params = { anonymous_uid: SecureRandom.uuid }.merge(options)
+      end
 
       make_http_request('identify', params)
     end
@@ -32,7 +34,15 @@ module DashX
     def track(event, uid, data)
       symbolize_keys! data
 
-      make_http_request('deliveries', { event: event, uid: uid, data: data })
+      make_http_request('track', { event: event, uid: uid, data: data })
+    end
+
+    def symbolize_keys!(hash)
+      new_hash = hash.each_with_object({}) do |(k, v), memo|
+        memo[k.to_sym] = v
+      end
+
+      hash.replace(new_hash)
     end
   end
 end
