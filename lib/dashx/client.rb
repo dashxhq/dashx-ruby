@@ -31,8 +31,8 @@ module DashX
       make_http_request('identify', params)
     end
 
-    def track(event, uid, data)
-      symbolize_keys! data
+    def track(event, uid, data = nil)
+      if !data.nil? then symbolize_keys! data end
 
       make_http_request('track', { event: event, uid: uid, data: data })
     end
