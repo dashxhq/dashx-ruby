@@ -68,7 +68,7 @@ DashX.identify('uid_of_user', {
 
 ##### For Anonymous User
 
-When you don't know the `uid` of the user, you can still use `identify` to user info like so:
+When you don't know the `uid` of a user, you can still use `identify` to add user info like so:
 
 ```ruby
 DashX.identify({
