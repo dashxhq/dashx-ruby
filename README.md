@@ -20,7 +20,72 @@ Or install it yourself as:
 
 ## Usage
 
+```ruby
+require 'dashx'
 
+DashX.deliver({ to: 'johndoe@example.com' })
+```
+
+### Configuration
+
+```ruby
+DashX.configure do |config|
+  config.public_key = ENV['DASHX_PUBLIC_KEY']
+  config.private_key = ENV['DASHX_PRIVATE_KEY']
+end
+```
+
+### Deliver
+
+```ruby
+DashX.deliver({
+  to: 'John Doe <john@example.com>',
+  body: 'Hello World!'
+});
+```
+
+`deliver` can accept multiple recipients like so:
+
+```ruby
+DashX.deliver({
+  to: ['John Doe <john@example.com>','admin@example.com', 'sales@example.com>'],
+  body: 'Hello World!'
+});
+```
+
+### Identify
+
+You can use `identify` to update user info associated with the provided `uid`
+
+```ruby
+DashX.identify('uid_of_user', {
+  first_name: 'John',
+  last_name: 'Doe',
+  email: 'johndoe@email.com',
+  phone: '+1-234-567-8910'
+})
+```
+
+##### For Anonymous User
+
+When you don't know the `uid` of the user, you can still use `identify` to add info to the user like so:
+
+```ruby
+DashX.identify({
+  first_name: 'John',
+  last_name: 'Doe',
+  email: 'johndoe@email.com',
+  phone: '+1-234-567-8910'
+})
+```
+
+`identify` will automatically append a pseudo-random `anonymous_uid` in this case.
+
+### Track
+
+```ruby
+DashX.track('event_name', 'uid_of_user', { hello: 'world' });
+```
 
 ## Development
 
@@ -30,8 +95,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/dashx. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/dashx/blob/master/CODE_OF_CONDUCT.md).
-
+Bug reports and pull requests are welcome on GitHub at https://github.com/dashxhq/dashx-ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/dashxhq/dashx-ruby/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
