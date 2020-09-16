@@ -15,10 +15,6 @@ module DashX
       })
     end
 
-    def make_http_request(uri, body)
-      self.class.send(:post, "/#{uri}", { body: body })
-    end
-
     def deliver(parcel)
       symbolize_keys! parcel
 
@@ -43,6 +39,12 @@ module DashX
       symbolize_keys! data unless data.nil?
 
       make_http_request('track', { event: event, uid: uid, data: data })
+    end
+
+    private
+
+    def make_http_request(uri, body)
+      self.class.send(:post, "/#{uri}", { body: body })
     end
 
     def symbolize_keys!(hash)
