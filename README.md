@@ -84,7 +84,7 @@ DashX.identify({
 ### Track
 
 ```ruby
-DashX.track('event_name', 'uid_of_user', { hello: 'world' });
+DashX.track('event_name', 'uid_of_user', { hello: 'world' })
 ```
 
 ## Development
