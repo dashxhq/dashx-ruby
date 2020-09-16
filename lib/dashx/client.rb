@@ -21,6 +21,13 @@ module DashX
       self.class.send(:post, "/#{uri}", { body: body })
     end
 
+    def deliver(parcel)
+      symbolize_keys! parcel
+      check_presence! (parcel[:to], 'Recipient')
+
+      make_http_request('deliver', parcel)
+    end
+
     def identify(uid, options = {})
       symbolize_keys! options
 
@@ -45,6 +52,10 @@ module DashX
       end
 
       hash.replace(new_hash)
+    end
+
+    def check_presence!(obj, name = obj)
+      raise ArgumentError, "#{name} cannot be blank." if obj.nil? || (obj.is_a?(String) && obj.empty?)
     end
   end
 end
