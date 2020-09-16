@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'httparty'
 
 module DashX
@@ -10,9 +12,9 @@ module DashX
 
       self.class.base_uri(config[:base_uri])
       self.class.headers({
-        'X-Public-Key' => config[:public_key],
-        'X-Private-Key' => config[:private_key]
-      })
+                           'X-Public-Key' => config[:public_key],
+                           'X-Private-Key' => config[:private_key]
+                         })
     end
 
     def make_http_request(uri, body)
@@ -22,17 +24,17 @@ module DashX
     def identify(uid, options = {})
       symbolize_keys! options
 
-      if uid.is_a? String
-        params = { uid: uid }.merge(options)
-      else
-        params = { anonymous_uid: SecureRandom.uuid }.merge(options)
-      end
+      params = if uid.is_a? String
+                 { uid: uid }.merge(options)
+               else
+                 { anonymous_uid: SecureRandom.uuid }.merge(options)
+               end
 
       make_http_request('identify', params)
     end
 
     def track(event, uid, data = nil)
-      if !data.nil? then symbolize_keys! data end
+      symbolize_keys! data unless data.nil?
 
       make_http_request('track', { event: event, uid: uid, data: data })
     end

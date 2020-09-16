@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'dashx/version'
 require 'dashx/client'
 
 module DashX
-  @clients = Hash.new
+  @clients = {}
 
   def self.configure(client_name = :default)
     yield config = DashX::Config.new
