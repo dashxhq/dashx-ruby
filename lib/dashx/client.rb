@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'httparty'
 
 module DashX
@@ -12,9 +10,9 @@ module DashX
 
       self.class.base_uri(config[:base_uri])
       self.class.headers({
-                           'X-Public-Key' => config[:public_key],
-                           'X-Private-Key' => config[:private_key]
-                         })
+        'X-Public-Key' => config[:public_key],
+        'X-Private-Key' => config[:private_key]
+      })
     end
 
     def make_http_request(uri, body)
@@ -23,7 +21,8 @@ module DashX
 
     def deliver(parcel)
       symbolize_keys! parcel
-      check_presence! (parcel[:to], 'Recipient')
+
+      check_presence!(parcel[:to], 'Recipient')
 
       make_http_request('deliver', parcel)
     end

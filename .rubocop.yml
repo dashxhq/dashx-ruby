@@ -1,0 +1,14 @@
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Style/FrozenStringLiteralComment: # This cop is designed to help upgrade to Ruby 3.0
+  Enabled: false
+
+Style/Lambda:
+  EnforcedStyle: literal

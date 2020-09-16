@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module DashX
   class Config
     attr_accessor :base_uri
