@@ -1,3 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'rake', require: false
+# Specify your gem's dependencies in dashx.gemspec
+gemspec
+
+gem 'rake', '~> 12.0'
+gem 'rspec', '~> 3.0'
