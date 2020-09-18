@@ -1,4 +1,5 @@
 require 'dashx/version'
+require 'dashx/config'
 require 'dashx/client'
 
 module DashX
