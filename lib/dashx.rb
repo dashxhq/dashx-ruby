@@ -18,4 +18,8 @@ module DashX
   def self.track(event, uid, data)
     @clients[:default].track(event, uid, data)
   end
+
+  def self.generate_identity_token(uid)
+    @clients[:default].generate_identity_token(uid)
+  end
 end

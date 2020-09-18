@@ -41,6 +41,18 @@ module DashX
       make_http_request('track', { event: event, uid: uid, data: data })
     end
 
+    def generate_identity_token(uid)
+      check_presence!(uid, 'uid')
+
+      cipher = OpenSSL::Cipher::AES.new(256, :GCM).encrypt
+      cipher.key = @config.private_key
+      nonce = cipher.random_iv
+      cipher.iv = nonce
+      encrypted = cipher.update(uid) + cipher.final
+      encrypted_token = "#{nonce}#{encrypted}#{cipher.auth_tag}"
+      Base64.urlsafe_encode64(encrypted_token)
+    end
+
     private
 
     def make_http_request(uri, body)
