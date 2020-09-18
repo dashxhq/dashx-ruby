@@ -8,10 +8,10 @@ module DashX
     def initialize(config)
       @config = config
 
-      self.class.base_uri(config[:base_uri])
+      self.class.base_uri(config.base_uri)
       self.class.headers({
-        'X-Public-Key' => config[:public_key],
-        'X-Private-Key' => config[:private_key]
+        'X-Public-Key' => config.public_key,
+        'X-Private-Key' => config.private_key
       })
     end
 
