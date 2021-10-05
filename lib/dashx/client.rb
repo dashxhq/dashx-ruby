@@ -5,21 +5,21 @@ module DashX
     include HTTParty
     base_uri 'https://api.dashx.com'
 
-    @@create_delivery_request = 'mutation CreateDelivery($input: CreateDeliveryInput!) {
+    CREATE_DELIVERY_REQUEST = 'mutation CreateDelivery($input: CreateDeliveryInput!) {
         createDelivery(input: $input) {
             id
         }
       }
     '
 
-    @@identify_account_request = 'mutation IdentifyAccount($input: IdentifyAccountInput!) {
+    IDENTIFY_ACCOUNT_REQUEST = 'mutation IdentifyAccount($input: IdentifyAccountInput!) {
         identifyAccount(input: $input) {
             id
         }
       }
     '
 
-    @@track_event_request = 'mutation TrackEvent($input: TrackEventInput!) {
+    TRACK_EVENT_REQUEST = 'mutation TrackEvent($input: TrackEventInput!) {
         trackEvent(input: $input) {
             id
         }
@@ -30,28 +30,27 @@ module DashX
       @config = config
 
       self.class.base_uri(config.base_uri)
-      self.class.headers({
+
+      headers = {
         'X-Public-Key' => config.public_key,
         'X-Private-Key' => config.private_key,
-      }.merge(
-        if config.target_installation != nil
-          { 'X-Target-Installation' => config.target_installation }
-        else
-          {}
-        end
-      ).merge(
-        if config.target_environment != nil
-          { 'X-Target-Environment' => config.target_environment }
-        else
-          {}
-        end
-      ))
+      }
+
+      if !config.target_environment.nil?
+        headers['X-Target-Environment'] = config.target_environment
+      end
+
+      if !config.target_installation.nil?
+        headers['X-Target-Installation'] = config.target_installation
+      end
+
+      self.class.headers(headers)
     end        
-    
+
     def deliver(urn, parcel)
-      options = if urn.is_a? String and parcel != nil
+      options = if urn.is_a? String && parcel != nil
                   symbolize_keys! parcel
-                  check_presence!(parcel[:to], 'Recipient')
+                  check_presence!(parcel[:to], 'Recipient (:to)')
 
                   contentTypeIdentifier, contentIdentifier = urn.split('/', 1)
 
@@ -64,30 +63,30 @@ module DashX
                   }.merge(parcel)
                 else
                   symbolize_keys! urn
-                  check_presence!(urn[:from], 'Sender')
+                  check_presence!(urn[:from], 'Sender (:from)')
 
                   { attachments: [], cc: [], bcc: [] }.merge(urn)
                 end
 
-      make_graphql_request(@@create_delivery_request, options)
+      make_graphql_request(CREATE_DELIVERY_REQUEST, options)
     end
 
     def identify(uid, options)
       symbolize_keys! options
 
-      params = if uid.is_a? String and options != nil
+      params = if uid.is_a? String && options != nil
                  { uid: uid }.merge(options)
                else
                  { anonymousUid: SecureRandom.uuid }.merge(uid)
                end
 
-      make_graphql_request(@@identify_account_request, params)
+      make_graphql_request(IDENTIFY_ACCOUNT_REQUEST, params)
     end
 
     def track(event, uid, data = nil)
       symbolize_keys! data unless data.nil?
 
-      make_graphql_request(@@track_event_request, { event: event, uid: uid, data: data })
+      make_graphql_request(TRACK_EVENT_REQUEST, { event: event, uid: uid, data: data })
     end
 
     def generate_identity_token(uid)
@@ -106,7 +105,7 @@ module DashX
 
     def make_graphql_request(request, params)
       body = { query: request, variables: { input: params } }.to_json
-      request = self.class.post("/graphql", { body: body })
+      request = self.class.post('/graphql', { body: body })
     end
 
     def symbolize_keys!(hash)
