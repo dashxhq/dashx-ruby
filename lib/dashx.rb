@@ -10,6 +10,10 @@ module DashX
 
     @clients[client_name] = DashX::Client.new(config)
   end
+  
+  def self.deliver(parcel)
+    @clients[:default].deliver(parcel)
+  end
 
   def self.identify(uid = {}, options = {})
     @clients[:default].identify(uid, options)
