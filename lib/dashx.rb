@@ -11,11 +11,11 @@ module DashX
     @clients[client_name] = DashX::Client.new(config)
   end
   
-  def self.deliver(parcel)
-    @clients[:default].deliver(parcel)
+  def self.deliver(urn, parcel)
+    @clients[:default].deliver(urn, parcel)
   end
 
-  def self.identify(uid = {}, options = {})
+  def self.identify(uid, options)
     @clients[:default].identify(uid, options)
   end
 
