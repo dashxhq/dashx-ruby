@@ -48,11 +48,11 @@ module DashX
     end        
 
     def deliver(urn, parcel)
-      options = if urn.is_a? String && parcel != nil
+      options = if urn.is_a?(String) && parcel != nil
                   symbolize_keys! parcel
                   check_presence!(parcel[:to], 'Recipient (:to)')
 
-                  contentTypeIdentifier, contentIdentifier = urn.split('/', 1)
+                  contentTypeIdentifier, contentIdentifier = urn.split(/\//, 2)
 
                   {
                     contentTypeIdentifier: contentTypeIdentifier, 
@@ -74,7 +74,7 @@ module DashX
     def identify(uid, options)
       symbolize_keys! options
 
-      params = if uid.is_a? String && options != nil
+      params = if uid.is_a?(String) && options != nil
                  { uid: uid }.merge(options)
                else
                  { anonymousUid: SecureRandom.uuid }.merge(uid)
