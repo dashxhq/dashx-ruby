@@ -10,7 +10,7 @@ module DashX
 
     @clients[client_name] = DashX::Client.new(config)
   end
-  
+
   def self.deliver(urn, parcel)
     @clients[:default].deliver(urn, parcel)
   end
