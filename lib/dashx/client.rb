@@ -47,28 +47,28 @@ module DashX
       self.class.headers(headers)
     end
 
-    def deliver(urn, parcel)
-      options = if urn.is_a?(String) && parcel != nil
-                  symbolize_keys! parcel
-                  check_presence!(parcel[:to], 'Recipient (:to)')
+    def deliver(urn, options)
+      contentTypeIdentifier, contentIdentifier = urn.split(/\//, 2)
 
-                  contentTypeIdentifier, contentIdentifier = urn.split(/\//, 2)
+      options ||= {}
 
-                  {
-                    contentTypeIdentifier: contentTypeIdentifier,
-                    contentIdentifier: contentIdentifier,
-                    attachments: [],
-                    cc: [],
-                    bcc: [],
-                  }.merge(parcel)
-                else
-                  symbolize_keys! urn
-                  check_presence!(urn[:from], 'Sender (:from)')
+      symbolize_keys! options
 
-                  { attachments: [], cc: [], bcc: [] }.merge(urn)
-                end
+      options[:content] ||= {}
 
-      make_graphql_request(CREATE_DELIVERY_REQUEST, options)
+      [:to, :cc, :bcc].each do |kind|
+        value = options.delete(kind)
+
+        options[:content][kind] ||= value if value
+        options[:content][kind] = wrap_array(options[:content][kind]) if options[:content][kind]
+      end
+
+      params = {
+        contentTypeIdentifier: contentTypeIdentifier,
+        contentIdentifier: contentIdentifier
+      }.merge(options)
+
+      make_graphql_request(CREATE_DELIVERY_REQUEST, params)
     end
 
     def identify(uid, options)
@@ -109,7 +109,9 @@ module DashX
 
     def make_graphql_request(request, params)
       body = { query: request, variables: { input: params } }.to_json
-      request = self.class.post('/graphql', { body: body })
+      response = self.class.post('/graphql', { body: body })
+      raise "Request Failed: #{response}" if !response.success? || response.parsed_response.nil? || !response.parsed_response['errors'].nil?
+      response
     end
 
     def symbolize_keys!(hash)
@@ -118,6 +120,10 @@ module DashX
       end
 
       hash.replace(new_hash)
+    end
+
+    def wrap_array(obj)
+      obj.is_a?(Array) ? obj : [obj]
     end
 
     def check_presence!(obj, name = obj)
