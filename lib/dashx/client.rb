@@ -56,7 +56,7 @@ module DashX
 
       options[:content] ||= {}
 
-      [:to, cc, :bcc].each do |kind|
+      [:to, :cc, :bcc].each do |kind|
         value = options.delete(kind)
 
         options[:content][kind] ||= value if value
