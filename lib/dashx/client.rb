@@ -65,7 +65,11 @@ module DashX
 
       params = {
         contentTypeIdentifier: contentTypeIdentifier,
-        contentIdentifier: contentIdentifier
+        contentIdentifier: contentIdentifier,
+        to: [],
+        cc: [],
+        bcc: [],
+        attachments: []
       }.merge(options)
 
       make_graphql_request(CREATE_DELIVERY_REQUEST, params)
