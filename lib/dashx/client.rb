@@ -109,7 +109,9 @@ module DashX
 
     def make_graphql_request(request, params)
       body = { query: request, variables: { input: params } }.to_json
-      request = self.class.post('/graphql', { body: body })
+      response = self.class.post('/graphql', { body: body })
+      raise "Request Failed: #{response}" if !response.success?
+      response
     end
 
     def symbolize_keys!(hash)
