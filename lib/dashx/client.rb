@@ -110,7 +110,7 @@ module DashX
     def make_graphql_request(request, params)
       body = { query: request, variables: { input: params } }.to_json
       response = self.class.post('/graphql', { body: body })
-      raise "Request Failed: #{response}" if !response.success?
+      raise "Request Failed: #{response}" if !response.success? || response.parsed_response.nil? || !response.parsed_response['errors'].nil?
       response
     end
 
