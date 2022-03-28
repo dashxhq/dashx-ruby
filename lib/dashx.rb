@@ -26,4 +26,8 @@ module DashX
   def self.generate_identity_token(uid)
     @clients[:default].generate_identity_token(uid)
   end
+
+  def self.save_contacts(uid, contacts)
+    @clients[:default].save_contacts(uid, contacts)
+  end
 end

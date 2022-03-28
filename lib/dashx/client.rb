@@ -26,6 +26,15 @@ module DashX
       }
     '
 
+    SAVE_CONTACTS_REQUEST = 'mutation SaveContacts($input: SaveContactsInput!) {
+        saveContacts(input: $input) {
+            contacts {
+              id
+            }
+        }
+      }
+    '
+
     def initialize(config)
       @config = config
 
@@ -103,6 +112,11 @@ module DashX
       encrypted = cipher.update(plain_text) + cipher.final
       encrypted_token = "#{nonce}#{encrypted}#{cipher.auth_tag}"
       Base64.urlsafe_encode64(encrypted_token)
+    end
+
+    def save_contacts(uid, contacts = [])
+      contacts.each(&:symbolize_keys!)
+      make_graphql_request(SAVE_CONTACTS_REQUEST, { uid: uid, contacts: contacts })
     end
 
     private
