@@ -115,7 +115,6 @@ module DashX
     end
 
     def save_contacts(uid, contacts = [])
-      raise "Please pass at least one contact to be saved." if contacts.empty?
       contacts.each(&:symbolize_keys!)
       make_graphql_request(SAVE_CONTACTS_REQUEST, { uid: uid, contacts: contacts })
     end
