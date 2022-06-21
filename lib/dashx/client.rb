@@ -21,7 +21,7 @@ module DashX
 
     TRACK_EVENT_REQUEST = 'mutation TrackEvent($input: TrackEventInput!) {
         trackEvent(input: $input) {
-            id
+            success
         }
       }
     '
