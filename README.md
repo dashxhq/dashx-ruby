@@ -1,8 +1,28 @@
-# DashX
+<p align="center">
+    <br />
+    <a href="https://dashx.com"><img src="https://raw.githubusercontent.com/dashxhq/brand-book/master/assets/logo-black-text-color-icon@2x.png" alt="DashX" height="40" /></a>
+    <br />
+    <br />
+    <strong>Your All-in-One Product Stack</strong>
+</p>
 
-DashX SDK for Ruby
+<div align="center">
+  <h4>
+    <a href="https://dashx.com">Website</a>
+    <span> | </span>
+    <a href="https://dashxdemo.com">Demos</a>
+    <span> | </span>
+    <a href="https://docs.dashx.com/developer">Documentation</a>
+  </h4>
+</div>
 
-## Installation
+<br />
+
+# dashx-ruby
+
+_DashX SDK for Ruby_
+
+## Install
 
 Add this line to your application's Gemfile:
 
@@ -12,82 +32,25 @@ gem 'dashx'
 
 And then execute:
 
-    $ bundle install
+```sh
+bundle install
+```
 
 Or install it yourself as:
 
-    $ gem install dashx
+```sh
+gem install dashx
+```
 
 ## Usage
 
-```ruby
-require 'dashx'
+For detailed usage, refer to the [documentation](https://docs.dashx.com/developer).
 
-DashX.deliver({ to: 'johndoe@example.com' })
-```
+## Contributing
 
-### Configuration
+Bug reports and pull requests are welcome on GitHub at https://github.com/dashxhq/dashx-ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/dashxhq/dashx-ruby/blob/master/CODE_OF_CONDUCT.md).
 
-```ruby
-DashX.configure do |config|
-  config.public_key = ENV['DASHX_PUBLIC_KEY']
-  config.private_key = ENV['DASHX_PRIVATE_KEY']
-end
-```
-
-### Deliver
-
-```ruby
-DashX.deliver({
-  to: 'John Doe <john@example.com>',
-  body: 'Hello World!'
-});
-```
-
-`deliver` can accept multiple recipients like so:
-
-```ruby
-DashX.deliver({
-  to: ['John Doe <john@example.com>','admin@example.com', 'sales@example.com>'],
-  body: 'Hello World!'
-});
-```
-
-### Identify
-
-You can use `identify` to update user info associated with the provided `uid`
-
-```ruby
-DashX.identify('uid_of_user', {
-  first_name: 'John',
-  last_name: 'Doe',
-  email: 'johndoe@email.com',
-  phone: '+1-234-567-8910'
-})
-```
-
-##### For Anonymous User
-
-When you don't know the `uid` of a user, you can still use `identify` to add user info like so:
-
-```ruby
-DashX.identify({
-  first_name: 'John',
-  last_name: 'Doe',
-  email: 'johndoe@email.com',
-  phone: '+1-234-567-8910'
-})
-```
-
-`identify` will automatically append a pseudo-random `anonymous_uid` in this case.
-
-### Track
-
-```ruby
-DashX.track('event_name', 'uid_of_user', { hello: 'world' })
-```
-
-## Development
+### Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests.
 
@@ -95,7 +58,7 @@ You can also run `bin/console` for an interactive prompt that will allow you to 
 
 To install this gem onto your local machine, run `bundle exec rake install`.
 
-# Publishing
+### Publishing
 
 We use the amazing [gem-release](https://github.com/svenfuchs/gem-release) for releases.
 
@@ -113,10 +76,6 @@ gem bump -v minor // Automatically sets the version number, commits
 git push origin master // Push the version bump commit
 gem release
 ```
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/dashxhq/dashx-ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/dashxhq/dashx-ruby/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
