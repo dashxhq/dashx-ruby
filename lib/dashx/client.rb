@@ -95,7 +95,7 @@ module DashX
     def track(event, uid, data = nil)
       symbolize_keys! data unless data.nil?
 
-      make_graphql_request(TRACK_EVENT_REQUEST, { event: event, uid: uid, data: data })
+      make_graphql_request(TRACK_EVENT_REQUEST, { event: event, accountUid: uid, data: data })
     end
 
     def generate_identity_token(uid, options = {})
