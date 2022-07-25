@@ -35,6 +35,33 @@ module DashX
       }
     '
 
+    FETCH_ITEM_REQUEST = 'query FetchItem($input: FetchItemInput) {
+        fetchItem(input: $input) {
+          id
+          installationId
+          name
+          identifier
+          description
+          createdAt
+          updatedAt
+          pricings {
+            id
+            kind
+            amount
+            originalAmount
+            isRecurring
+            recurringInterval
+            recurringIntervalUnit
+            appleProductIdentifier
+            googleProductIdentifier
+            currencyCode
+            createdAt
+            updatedAt
+          }
+        }
+      }
+    '
+
     def initialize(config)
       @config = config
 
@@ -117,6 +144,10 @@ module DashX
     def save_contacts(uid, contacts = [])
       contacts.each(&:symbolize_keys!)
       make_graphql_request(SAVE_CONTACTS_REQUEST, { uid: uid, contacts: contacts })
+    end
+
+    def fetch_item(identifier)
+      make_graphql_request(FETCH_ITEM_REQUEST, { identifier: identifier })
     end
 
     private

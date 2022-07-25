@@ -30,4 +30,8 @@ module DashX
   def self.save_contacts(uid, contacts)
     @clients[:default].save_contacts(uid, contacts)
   end
+
+  def self.fetch_item(identifier)
+    @clients[:default].fetch_item(identifier)
+  end
 end
