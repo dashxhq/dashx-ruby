@@ -125,22 +125,6 @@ module DashX
       make_graphql_request(TRACK_EVENT_REQUEST, { event: event, accountUid: uid, data: data })
     end
 
-    def generate_identity_token(uid, options = {})
-      check_presence!(uid, 'uid')
-      symbolize_keys! options
-
-      kind = options[:kind] || 'regular'
-      plain_text = "v1;#{kind};#{uid}"
-
-      cipher = OpenSSL::Cipher::AES.new(256, :GCM).encrypt
-      cipher.key = @config.private_key
-      nonce = cipher.random_iv
-      cipher.iv = nonce
-      encrypted = cipher.update(plain_text) + cipher.final
-      encrypted_token = "#{nonce}#{encrypted}#{cipher.auth_tag}"
-      Base64.urlsafe_encode64(encrypted_token)
-    end
-
     def save_contacts(uid, contacts = [])
       contacts.each(&:symbolize_keys!)
       make_graphql_request(SAVE_CONTACTS_REQUEST, { uid: uid, contacts: contacts })
