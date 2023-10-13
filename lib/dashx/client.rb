@@ -148,6 +148,14 @@ module DashX
       make_graphql_request(FETCH_ITEM_REQUEST, { identifier: identifier })
     end
 
+    def fetch_stored_preferences(uid)
+      make_graphql_request(FETCH_STORED_PREFERENCES, { accountUid: uid })
+    end
+
+    def save_stored_preferences(uid, preferenceData)
+      make_graphql_request(SAVE_STORED_PREFERENCES, { accountUid: uid, preferenceData: preferenceData })
+    end
+
     private
 
     def make_graphql_request(request, params)
@@ -171,14 +179,6 @@ module DashX
 
     def check_presence!(obj, name = obj)
       raise ArgumentError, "#{name} cannot be blank." if obj.nil? || (obj.is_a?(String) && obj.empty?)
-    end
-
-    def fetch_stored_preferences(uid)
-      make_graphql_request(FETCH_STORED_PREFERENCES, { accountUid: uid })
-    end
-
-    def save_stored_preferences(uid, preferenceData)
-      make_graphql_request(SAVE_STORED_PREFERENCES, { accountUid: uid, preferenceData: preferenceData })
     end
   end
 end
