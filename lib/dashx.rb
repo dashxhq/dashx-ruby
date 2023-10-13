@@ -30,4 +30,12 @@ module DashX
   def self.fetch_item(identifier)
     @clients[:default].fetch_item(identifier)
   end
+
+  def self.fetch_stored_preferences(uid)
+    @clients[:default].fetch_stored_preferences(uid)
+  end
+
+  def self.save_stored_preferences(uid, preferenceData)
+    @clients[:default].save_stored_preferences(uid, preferenceData)
+  end
 end

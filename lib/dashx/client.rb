@@ -62,6 +62,20 @@ module DashX
       }
     '
 
+    FETCH_STORED_PREFERENCES = 'query FetchStoredPreferences($input: FetchStoredPreferencesInput) {
+        fetchStoredPreferences(input: $input) {
+          preferenceData
+        }
+      }
+    '
+
+    SAVE_STORED_PREFERENCES = 'query SaveStoredPreferences($input: SaveStoredPreferencesInput) {
+        saveStoredPreferences(input: $input) {
+          success
+        }
+      }
+    '
+
     def initialize(config)
       @config = config
 
@@ -132,6 +146,14 @@ module DashX
 
     def fetch_item(identifier)
       make_graphql_request(FETCH_ITEM_REQUEST, { identifier: identifier })
+    end
+
+    def fetch_stored_preferences(uid)
+      make_graphql_request(FETCH_STORED_PREFERENCES, { accountUid: uid })
+    end
+
+    def save_stored_preferences(uid, preferenceData)
+      make_graphql_request(SAVE_STORED_PREFERENCES, { accountUid: uid, preferenceData: preferenceData })
     end
 
     private
