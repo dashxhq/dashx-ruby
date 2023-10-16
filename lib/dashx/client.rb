@@ -69,7 +69,7 @@ module DashX
       }
     '
 
-    SAVE_STORED_PREFERENCES = 'query SaveStoredPreferences($input: SaveStoredPreferencesInput) {
+    SAVE_STORED_PREFERENCES = 'mutation SaveStoredPreferences($input: SaveStoredPreferencesInput) {
         saveStoredPreferences(input: $input) {
           success
         }
