@@ -114,7 +114,7 @@ module DashX
       end
 
       params = {
-        templateSubkind: templateSubkind,
+        templateSubkind: templateSubkind.upcase,
         templateIdentifier: templateIdentifier
       }.merge(options)
 
