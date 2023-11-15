@@ -98,7 +98,7 @@ module DashX
     end
 
     def deliver(urn, options)
-      contentTypeIdentifier, contentIdentifier = urn.split(/\//, 2)
+      templateSubkind, templateIdentifier = urn.split(/\//, 2)
 
       options ||= {}
 
@@ -114,8 +114,8 @@ module DashX
       end
 
       params = {
-        contentTypeIdentifier: contentTypeIdentifier,
-        contentIdentifier: contentIdentifier
+        templateSubkind: templateSubkind,
+        templateIdentifier: templateIdentifier
       }.merge(options)
 
       make_graphql_request(CREATE_DELIVERY_REQUEST, params)
