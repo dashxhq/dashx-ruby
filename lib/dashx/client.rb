@@ -62,6 +62,25 @@ module DashX
       }
     '
 
+    FETCH_CONTACT_REQUEST = 'query FetchContacts($input: FetchContactsInput!) {
+        fetchContacts(input: $input) {
+          contacts {
+            id
+            accountId
+            name
+            kind
+            value
+            unverifiedValue
+            verifiedAt
+            status
+            tag
+            createdAt
+            updatedAt
+          }
+        }
+      }
+    '
+
     FETCH_STORED_PREFERENCES = 'query FetchStoredPreferences($input: FetchStoredPreferencesInput) {
         fetchStoredPreferences(input: $input) {
           preferenceData
@@ -142,6 +161,10 @@ module DashX
     def save_contacts(uid, contacts = [])
       contacts.each(&:symbolize_keys!)
       make_graphql_request(SAVE_CONTACTS_REQUEST, { uid: uid, contacts: contacts })
+    end
+
+    def fetch_contacts(uid)
+      make_graphql_request(FETCH_CONTACT_REQUEST, { accountUid: uid })
     end
 
     def fetch_item(identifier)
