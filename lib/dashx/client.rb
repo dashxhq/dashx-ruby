@@ -164,7 +164,7 @@ module DashX
     end
 
     def fetch_contacts(uid)
-      make_graphql_request(FETCH_CONTACTS_REQUEST, { accountUid: uid })
+      make_graphql_request(FETCH_CONTACTS_REQUEST, { uid: uid })
     end
 
     def fetch_item(identifier)
