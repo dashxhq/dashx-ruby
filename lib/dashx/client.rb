@@ -62,7 +62,7 @@ module DashX
       }
     '
 
-    FETCH_CONTACT_REQUEST = 'query FetchContacts($input: FetchContactsInput!) {
+    FETCH_CONTACTS_REQUEST = 'query FetchContacts($input: FetchContactsInput!) {
         fetchContacts(input: $input) {
           contacts {
             id
@@ -164,7 +164,7 @@ module DashX
     end
 
     def fetch_contacts(uid)
-      make_graphql_request(FETCH_CONTACT_REQUEST, { accountUid: uid })
+      make_graphql_request(FETCH_CONTACTS_REQUEST, { accountUid: uid })
     end
 
     def fetch_item(identifier)
