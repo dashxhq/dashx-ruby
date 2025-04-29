@@ -8,6 +8,8 @@ module DashX
   def self.configure(client_name = :default)
     yield config = DashX::Config.new
 
+    config.validate!
+
     @clients[client_name] = DashX::Client.new(config)
   end
 

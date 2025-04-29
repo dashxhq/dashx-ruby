@@ -103,15 +103,8 @@ module DashX
       headers = {
         'X-Public-Key' => config.public_key,
         'X-Private-Key' => config.private_key,
+        'X-Target-Environment' => config.target_environment,
       }
-
-      if !config.target_environment.nil?
-        headers['X-Target-Environment'] = config.target_environment
-      end
-
-      if !config.target_installation.nil?
-        headers['X-Target-Installation'] = config.target_installation
-      end
 
       self.class.headers(headers)
     end
