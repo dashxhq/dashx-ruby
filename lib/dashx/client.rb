@@ -1,4 +1,5 @@
 require 'httparty'
+require 'jwt'
 
 module DashX
   class Client
@@ -170,6 +171,18 @@ module DashX
 
     def save_stored_preferences(uid, preferenceData)
       make_graphql_request(SAVE_STORED_PREFERENCES, { accountUid: uid, preferenceData: preferenceData })
+    end
+
+    # Mints an identity token (a short-lived JWT) for a visitor, used by the
+    # browser/react SDKs to authenticate that identity.
+    # +kind+ defaults to 'USER', expiry to 7 days.
+    def generate_identity_token(uid, kind: 'USER', expires_in_seconds: 60 * 60 * 24 * 7)
+      check_presence!(uid, 'uid')
+
+      now = Time.now.to_i
+      payload = { iat: now, exp: now + expires_in_seconds, kind: kind, uid: uid }
+
+      JWT.encode(payload, @config.private_key, 'HS256')
     end
 
     private

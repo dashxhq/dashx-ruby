@@ -44,4 +44,8 @@ module DashX
   def self.save_stored_preferences(uid, preferenceData)
     @clients[:default].save_stored_preferences(uid, preferenceData)
   end
+
+  def self.generate_identity_token(uid, **options)
+    @clients[:default].generate_identity_token(uid, **options)
+  end
 end
